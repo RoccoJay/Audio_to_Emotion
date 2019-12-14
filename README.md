@@ -17,48 +17,22 @@ Overview of this notebook's approach for classifying audio to emotion:
 -Tune hyperparameters for the models using the Optuna framework.
 -Ensemble models using soft voting classifier to improve performance.
 
-Audio is represented as waves where the x-axis is time and the  y-axis is amplitude.  These waves are  stored as a sum of sine waves using three values as in A sin(\omegat +\phi), where A controls the amplitude of the curve, \omega controls the period of the curve, and \phi controls the horizontal shift of the curve.  Samples are recorded at every timestep, and the number of samples per second is called the sampling rate, typically measured in hertz (Hz), which are defined as cycles per one second.  The standard sampling rate in libROSA is 22,050 Hz because that is the upper bound of human hearing.
+Audio is represented as waves where the x-axis is time and the  y-axis is amplitude.  These waves are  stored as a sum of sine waves using three values as in *A* sin(*B*t* +*C*), where *A* controls the amplitude of the curve, *B* controls the period of the curve, and *C* controls the horizontal shift of the curve.  Samples are recorded at every timestep, and the number of samples per second is called the sampling rate, typically measured in hertz (Hz), which are defined as cycles per one second.  The standard sampling rate in libROSA is 22,050 Hz because that is the upper bound of human hearing.
 
 ### Data Description
 The RAVDESS dataset consists of speech and song files classified by 247 untrained Americans to eight different emotions at two intensity levels: Calm, Happy, Sad, Angry, Fearful, Disgust, and Surprise, along with a baseline of Neutral for each actor. A breakdown of the emotion classes in the dataset is provided in the following table:
-| Emotion | Speech Count | Song Count | Total Count |
-|---------|--------------|------------|-------------|
-Neutral
-96
-92
-188
-Calm
-192
-184
-376
-Happy
-192
-184
-376
-Sad
-192
-184
-376
-Angry
-192
-184
-376
-Fearful
-192
-184
-376
-Disgust
-192
-0
-192
-Surprised
-192
-0
-192
-Total
-1440
-1012
-2452
+
+| Emotion | Speech Count | Song Count | Total Count 
+| ------- | :----------: | :--------: | ----------: 
+| Neutral | 96 | 92 | 188
+| Calm | 192 | 184 | 376
+| Happy | 192 | 184 | 376
+| Sad | 192 | 184 | 376
+| Angry | 192 | 184 | 376
+| Fearful | 192 | 184 | 376
+| Disgust | 192 | 0 | 192
+| Surprised | 192 | 0 | 192
+| Total | 1440 | 1012 | 2452
 
 The dataset is gender balanced being composed of 24 professional actors, 12 male and 12 female. 
 

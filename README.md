@@ -143,7 +143,7 @@ Many other models were trained, tuned, and tested besides those discussed previo
 
 ## Conclusion
 
-The use of three features (MFCC’s, Mel Spectrograms and chroma STFT) gave impressive accuracy in most of the models, reiterating the importance of feature selection.  As with many data science projects, different features could be used and/or engineered.  Tonnetz was originally used in modeling, however it lead to decreased performance and was removed. Some other possible features to explore concerning audio would be MFCC Filterbanks or features extracted using the perceptual linear predictive (PLP) technique.  These features could affect the performance of models in the emotion classification task.  
+The use of three features (MFCC’s, Mel Spectrograms and chroma STFT) gave impressive accuracy in most of the models, reiterating the importance of feature selection.  As with many data science projects, different features could be used and/or engineered.  Tonnetz was originally used in modeling, however it led to decreased performance and was removed. Some other possible features to explore concerning audio would be MFCC Filterbanks or features extracted using the perceptual linear predictive (PLP) technique.  These features could affect the performance of models in the emotion classification task.  
 
 ## Future Work
 An alternate approach that could be explored for this problem is splitting the classifying task into two distinct problems.  A separate model could be used to classify gender and then separate models for each gender to classify emotion could be utilized.  This could possibly lead to a performance improvement by segregating the task of emotion classification by gender.

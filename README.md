@@ -1,14 +1,14 @@
 # Classifying Audio to Emotion using RAVDESS
 
-This notebook includes code for reading in audio data, feature extraction, hyperparameter tuning with Optuna, and models including KNN, Logistic Regression, Decision Tree, Boosting, Bagging, Multilayer Perceptron, and Voting Classifiers.The Python library libROSA provided the main tools for processing and extracting features from the audio files utilized in this project.  
+This notebook includes code for reading in audio data, feature extraction, hyperparameter tuning with Optuna, and models including KNN, Logistic Regression, Decision Tree, Boosting, Bagging, Multilayer Perceptron, and Voting Classifiers. The Python library libROSA provided the main tools for processing and extracting features from the audio files utilized in this project.  
 
-Beginning with extracting MFCCs, Chroma, and Mel spectrograms from the audio files modeling was done with readily available models from Sci-kit Learn and other Python packages.  Hyperparameter tuning for these models was accomplished using the Optuna framework.
+Beginning with extracting MFCCs, Chroma, and Mel spectrograms from the audio files modeling was done with readily available models from Sci-kit Learn and other Python packages. Hyperparameter tuning for these models was accomplished using the Optuna framework.
 
-## Introduction & Background 
+## Introduction 
 
-Classifying audio to emotion is challenging because of its subjective nature.  This task can be challenging for humans, let alone machines.  Potential applications for classifying audio to emotion are numerous, including call centers, AI assistants, counseling, and veracity tests.  
+Classifying audio to emotion is challenging because of its subjective nature. This task can be challenging for humans, let alone machines. Potential applications for classifying audio to emotion are numerous, including call centers, AI assistants, counseling, and veracity tests.  
 
-There are numerous projects and articles available on this subject.  Please see the references section at the bottom of this readme for useful and interesting articles and Jupyter notebooks on this or related topics.
+There are numerous projects and articles available on this subject. Please see the references section at the bottom of this readme for useful and interesting articles and Jupyter notebooks on this or related topics.
 
 Overview of this notebook's approach for classifying audio to emotion:
 - Read WAV files in by using the libROSA package in Python.
@@ -20,6 +20,7 @@ Overview of this notebook's approach for classifying audio to emotion:
 Audio is represented as waves where the x-axis is time and the  y-axis is amplitude.  These waves are  stored as a sum of sine waves using three values as in *A* sin(*B*t +*C*), where *A* controls the amplitude of the curve, *B* controls the period of the curve, and *C* controls the horizontal shift of the curve.  Samples are recorded at every timestep, and the number of samples per second is called the sampling rate, typically measured in hertz (Hz), which are defined as cycles per one second.  The standard sampling rate in libROSA is 22,050 Hz because that is the upper bound of human hearing.
 
 ### Data Description
+
 The RAVDESS dataset consists of speech and song files classified by 247 untrained Americans to eight different emotions at two intensity levels: Calm, Happy, Sad, Angry, Fearful, Disgust, and Surprise, along with a baseline of Neutral for each actor. A breakdown of the emotion classes in the dataset is provided in the following table:
 
 | Emotion | Speech Count | Song Count | Total Count 
@@ -42,11 +43,11 @@ The audio files were created in a controlled environment and using identical sta
 
 The files are in the WAV raw audio file format and all have a 16 bit Bitrate and a 48 kHz sample rate. The files are all uncompressed, lossless audio, and have not lost any information/data or been modified from the original recording. 
 
-## Data Pre-Processing
+## Feature Extraction
 
-As mentioned before, the audio files were processed using the libROSA python package. This package was originally created for music and audio analysis, making it a good selection. After importing libROSA, the WAV files are read in one at a time.  An audio time series in the form of a 1-dimensional array for mono or 2-dimensional array for stereo, along with time sampling rate (also defines the length of the array), where the elements within each of the  arrays represent the amplitude of the sound waves is returned by libROSA’s “load” function.
+As mentioned before, the audio files were processed using the libROSA python package. This package was originally created for music and audio analysis, making it a good selection. After importing libROSA, the WAV files are read in one at a time. An audio time series in the form of a 1-dimensional array for mono or 2-dimensional array for stereo, along with time sampling rate (also defines the length of the array), where the elements within each of the  arrays represent the amplitude of the sound waves is returned by libROSA’s “load” function.
 
-Some definitions that aid understanding the features used:
+Some helpful definitions for understanding the features used:
 
 - **Mel scale** — deals with human perception of frequency, it is a scale of pitches judged by listeners to be equal distance from each other
 - **Pitch** — how high or low a sound is. It depends on frequency, higher pitch is high frequency
@@ -59,12 +60,13 @@ Some definitions that aid understanding the features used:
 Using the signal extracted from the raw audio file and several of libROSA’s audio processing functions, MFCCs, Chroma, and Mel spectrograms were extracted using a function that receives a file name (path), loads the audio file, then utilizes several libROSA functions to extract features that are then aggregated and returned in the form of a numpy array.
 
 ### Summary of Features
+
 - **MFCC** - Mel Frequency Cepstral Coefficients: 
 Voice is dependent on the shape of vocal tract including tongue, teeth, etc.
 Representation of short-time power spectrum of sound, essentially a representation of the vocal tract
 
 - **STFT** - returns complex-valued matrix D of short-time Fourier Transform Coefficients:
-Using abs(D[f,t]) returns magnitude of frequency bin f at frame t
+Using abs(D[f,t]) returns magnitude of frequency bin f at frame t (Used as an input for Chroma_STFT)
 
 - **Chroma_STFT** - (12 pitch classes) using an energy (magnitude) spectrum (obtained by taking the absolute value of the matrix returned by libROSA’s STFT function) instead of power spectrum returns normalized energy for each chroma bin at each frame
 
@@ -102,6 +104,7 @@ The following parameters were obtained for the XG Boost model using the Optuna f
 This model has more trouble classifying fearful female, sad female, and sad male than some of the other classes.  
 
 ### Multilayer Perceptron
+
 The following parameters were obtained for the MLP model using the Optuna framework, and yielded a test set accuracy of 0.83. 
 
 | Parameter | Value
@@ -117,6 +120,7 @@ The following parameters were obtained for the MLP model using the Optuna framew
 The model showed considerable improvement in classifying fearful female and sad male, but has even more trouble classifying sad female than the XG Boost model.  
 
 ### Soft Voting Classifier Ensemble (MLP and XGB)
+
 Thinking that the performance of the MLP model could offset the poor performance of the XG Boost model in the fearful female and sad male classes and vice versa with the performance on the sad female class, a soft voting classifier was used to average the probabilities produced by each of the models.  This voting classifier outperformed each of the component models in both the 5-fold CV accuracy over the train set and the test set accuracy obtaining 0.84.  Although the voting classifier model performs better in fearful female, sad female, and sad male, it still struggled with sad female as the component models did.
 
 Many other models were trained, tuned, and tested besides those discussed previously.  Below is a summary of the statistics associated with these other models.
@@ -137,7 +141,7 @@ Many other models were trained, tuned, and tested besides those discussed previo
 
 ## Conclusion
 
-The use of three features (MFCC’s, MSF’s and chroma STFT) gave impressive accuracy in most of the models, reiterating the importance of feature selection.  As with many data science projects, different features could be used and/or engineered.  Some possible features to explore concerning audio would be MFCC Filterbanks or features extracted using the perceptual linear predictive (PLP) technique.  These features could affect the performance of models in the emotion classification task.
+The use of three features (MFCC’s, MSF’s and chroma STFT) gave impressive accuracy in most of the models, reiterating the importance of feature selection.  As with many data science projects, different features could be used and/or engineered.  Tonnetz was originally used in modeling, however it lead to decreased performance and was removed. Some other possible features to explore concerning audio would be MFCC Filterbanks or features extracted using the perceptual linear predictive (PLP) technique.  These features could affect the performance of models in the emotion classification task.  
 
 ## Future Work
 An alternate approach that could be explored for this problem is splitting the classifying task into two distinct problems.  A separate model could be used to classify gender and then separate models for each gender to classify emotion could be utilized.  This could possibly lead to a performance improvement by segregating the task of emotion classification by gender.
@@ -145,15 +149,14 @@ An alternate approach that could be explored for this problem is splitting the c
 It would be interesting to see how a human classifying the audio would measure up to these models, however, finding someone willing to listen to more than 2,400 audio clips may be a challenge in of itself because a person can only listen to “the children are talking by the door” or “the dogs are sitting by the door” so many times.
 
 ## References
-https://zenodo.org/record/1188976#.XeqDKej0mMo
-http://conference.scipy.org/proceedings/scipy2015/pdfs/brian_mcfee.pdf
-https://towardsdatascience.com/ok-google-how-to-do-speech-recognition-f77b5d7cbe0b
-http://practicalcryptography.com/miscellaneous/machine-learning/guide-mel-frequency-cepstral-coefficients-mfccs/
-https://en.wikipedia.org/wiki/Frequency_domain 
-http://www.nyu.edu/classes/bello/MIR_files/tonality.pdf
-https://github.com/marcogdepinto/Emotion-Classification-Ravdess/blob/master/EmotionsRecognition.ipynb
-https://towardsdatascience.com/speech-emotion-recognition-with-convolution-neural-network-1e6bb7130ce3
-https://data-flair.training/blogs/python-mini-project-speech-emotion-recognition/
-https://labrosa.ee.columbia.edu/matlab/chroma-ansyn/
-https://librosa.github.io/librosa/index.html
-https://www.researchgate.net/publication/283864379_Proposed_combination_of_PCA_and_MFCC_feature_extraction_in_speech_recognition_system
+https://zenodo.org/record/1188976#.XeqDKej0mMo  
+http://conference.scipy.org/proceedings/scipy2015/pdfs/brian_mcfee.pdf  
+https://towardsdatascience.com/ok-google-how-to-do-speech-recognition-f77b5d7cbe0b  
+http://practicalcryptography.com/miscellaneous/machine-learning/guide-mel-frequency-cepstral-coefficients-mfccs/  
+https://en.wikipedia.org/wiki/Frequency_domain  
+http://www.nyu.edu/classes/bello/MIR_files/tonality.pdf  
+https://github.com/marcogdepinto/Emotion-Classification-Ravdess/blob/master/EmotionsRecognition.ipynb  
+https://towardsdatascience.com/speech-emotion-recognition-with-convolution-neural-network-1e6bb7130ce3  
+https://data-flair.training/blogs/python-mini-project-speech-emotion-recognition/  
+https://labrosa.ee.columbia.edu/matlab/chroma-ansyn/  
+https://librosa.github.io/librosa/index.html  

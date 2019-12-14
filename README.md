@@ -17,7 +17,7 @@ Overview of this notebook's approach for classifying audio to emotion:
 -Tune hyperparameters for the models using the Optuna framework.
 -Ensemble models using soft voting classifier to improve performance.
 
-Audio is represented as waves where the x-axis is time and the  y-axis is amplitude.  These waves are  stored as a sum of sine waves using three values as in *A* sin(*B*t* +*C*), where *A* controls the amplitude of the curve, *B* controls the period of the curve, and *C* controls the horizontal shift of the curve.  Samples are recorded at every timestep, and the number of samples per second is called the sampling rate, typically measured in hertz (Hz), which are defined as cycles per one second.  The standard sampling rate in libROSA is 22,050 Hz because that is the upper bound of human hearing.
+Audio is represented as waves where the x-axis is time and the  y-axis is amplitude.  These waves are  stored as a sum of sine waves using three values as in *A* sin(*B*t +*C*), where *A* controls the amplitude of the curve, *B* controls the period of the curve, and *C* controls the horizontal shift of the curve.  Samples are recorded at every timestep, and the number of samples per second is called the sampling rate, typically measured in hertz (Hz), which are defined as cycles per one second.  The standard sampling rate in libROSA is 22,050 Hz because that is the upper bound of human hearing.
 
 ### Data Description
 The RAVDESS dataset consists of speech and song files classified by 247 untrained Americans to eight different emotions at two intensity levels: Calm, Happy, Sad, Angry, Fearful, Disgust, and Surprise, along with a baseline of Neutral for each actor. A breakdown of the emotion classes in the dataset is provided in the following table:
@@ -34,11 +34,11 @@ The RAVDESS dataset consists of speech and song files classified by 247 untraine
 | Surprised | 192 | 0 | 192
 | Total | 1440 | 1012 | 2452
 
-The dataset is gender balanced being composed of 24 professional actors, 12 male and 12 female. 
+The dataset is composed of 24 professional actors, 12 male and 12 female making it gender balanced. 
 
-The audio files were created in a controlled environment and each consists of identical statements spoken in an American accent. Additionally, there are two distinct types of files:
-Speech file (Audio_Speech_Actors_01-24.zip, 215 MB) contains 1440 files: 60 trials per actor x 24 actors = 1440. 
-Song file (Audio_Song_Actors_01-24.zip, 198 MB) contains 1012 files: 44 trials per actor x 23 actors = 1012.
+The audio files were created in a controlled environment and using identical statements spoken in an American accent. There are two distinct types of files:
+-Speech file (Audio_Speech_Actors_01-24.zip, 215 MB) contains 1440 files: 60 trials per actor x 24 actors = 1440. 
+-Song file (Audio_Song_Actors_01-24.zip, 198 MB) contains 1012 files: 44 trials per actor x 23 actors = 1012.
 The files are in the WAV raw audio file format and all have a 16 bit Bitrate and a 48 kHz sample rate. The files are all uncompressed, lossless audio, meaning that the audio files in the dataset have not lost any information/data or been modified from the original recording.   
 As mentioned before, to process/manipulate these files we used the libROSA python package. This package was originally created for music and audio analysis, making it the perfect selection for dealing with our dataset.
 After importing libROSA, we read in one WAV file at a time.  An audio time series in the form of a 1-dimensional array for mono or 2-dimensional array for stereo, along with time sampling rate (which defines the length of the array), where the elements within each of the  arrays represent the amplitude of the sound waves is returned by libROSA’s “load” function.

@@ -54,8 +54,8 @@ Some helpful definitions for understanding the features used:
 - **Frequency** — speed of vibration of sound, measures wave cycles per second
 - **Chroma** — Representation for audio where spectrum is projected onto 12 bins representing the 12 distinct semitones (or chroma). Computed by summing the log frequency magnitude spectrum across octaves.
 - **Fourier Transforms** — used to convert from time domain to frequency domain
---  *time domain*: shows how signal changes over time
--- *frequency domain*: shows how much of the signal lies within each given frequency band over a range of frequencies
+  - *time domain*: shows how signal changes over time
+  - *frequency domain*: shows how much of the signal lies within each given frequency band over a range of frequencies
 
 Using the signal extracted from the raw audio file and several of libROSA’s audio processing functions, MFCCs, Chroma, and Mel spectrograms were extracted using a function that receives a file name (path), loads the audio file, then utilizes several libROSA functions to extract features that are then aggregated and returned in the form of a numpy array.
 

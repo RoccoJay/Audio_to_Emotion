@@ -1,5 +1,7 @@
 # Classifying Audio to Emotion using RAVDESS
 
+###### Livingstone SR, Russo FA (2018) The Ryerson Audio-Visual Database of Emotional Speech and Song (RAVDESS): A dynamic, multimodal set of facial and vocal expressions in North American English. PLoS ONE 13(5): e0196391. https://doi.org/10.1371/journal.pone.0196391.
+
 This notebook includes code for reading in audio data, feature extraction, hyperparameter tuning with Optuna, and models including KNN, Logistic Regression, Decision Tree, Boosting, Bagging, Multilayer Perceptron, and Voting Classifiers. The Python library libROSA provided the main tools for processing and extracting features from the audio files utilized in this project.  
 
 Beginning with extracting MFCCs, Chroma, and Mel spectrograms from the audio files modeling was done with readily available models from Sci-kit Learn and other Python packages. Hyperparameter tuning for these models was accomplished using the Optuna framework.

@@ -82,7 +82,7 @@ A Breakdown of the Models:
 - Multilayer Perceptron Classifier
 - Soft Voting Classifier ensembles
 
-The hyperparameters for each of the models above were tuned with the Optuna framework using the mean accuracy of 3 to 5 fold cross-validation on the train set as the metric to optimize. This particular framework was chosen due to its flexibility, as it allows for distributions of numerical values or lists of categories to be suggested for each of the hyperparameters. Its pruning of unpromising trials makes it faster than a traditional grid search.
+The hyperparameters for each of the models above were tuned with the Optuna framework using the mean accuracy of 5-fold cross-validation on the train set as the metric to optimize. This particular framework was chosen due to its flexibility, as it allows for distributions of numerical values or lists of categories to be suggested for each of the hyperparameters. Its pruning of unpromising trials makes it faster than a traditional grid search.
 
 ## Results
 The results and parameters of the top performing models are provided below, as well as a summary of metrics obtained by other models. Note that results will vary slightly with each run of the associated Jupyter notebooks, unless seeds are set.  Overfitting was an issue with the majority of the models with some models overfitting to a greater or lesser degree than others.  This may have been caused in part by the relatively small size of the dataset. 
